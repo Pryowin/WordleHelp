@@ -26,5 +26,13 @@ namespace WordleHelp
             return retVal;
          
         }
+        public string[] ExcludeWrongPosition(string[] words, string[] wrongPosition)
+        {
+            RegExBuilder reg = new RegExBuilder();
+            Regex regex = reg.OmitWrongPlace(wrongPosition);
+            string[] retVal = words.Where(word => regex.IsMatch(word)).ToArray<string>();
+
+            return retVal;
+        }
     }
 }
