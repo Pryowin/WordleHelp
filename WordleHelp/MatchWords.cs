@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace WordleHelp
 {
@@ -33,6 +30,21 @@ namespace WordleHelp
             string[] retVal = words.Where(word => regex.IsMatch(word)).ToArray<string>();
 
             return retVal;
+        }
+        public string[] IncludeWrongPosition(string[] words, string[] wrongPosition)
+        {
+            string letters =string.Join("", wrongPosition);
+            string[] retVal = words.Where(word => letters.All(word.Contains)).ToArray<string>();
+            return retVal;
+        }
+        public string[] ApplyAllFilters(string[] words, Letters letters)
+        {
+            words = ExcludeNonMatched(words, letters.WrongLetters);
+            words = SelectMatched(words, letters.CorrectLetters);
+            words = ExcludeWrongPosition(words, letters.DifferentPlaces);
+            words = IncludeWrongPosition(words, letters.DifferentPlaces);
+            return words;
+
         }
     }
 }

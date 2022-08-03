@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WordleHelp
 {
     public class Letters
     {
-        private char[] _correctLetters = new char[5] { '.', '.', '.', '.', '.' };
+        const int wordLength = 5;
+        const char rightPlace = 'G';
+        const char wrongPlace = 'Y';
+
+        private char[] _correctLetters = new char[wordLength] { '.', '.', '.', '.', '.' };
         private HashSet<char> _wrongLetters = new HashSet<char>();
-        private string[] _differentPlace = new string[5];
+        private string[] _differentPlace = new string[wordLength];
    
 
         public HashSet<char> WrongLetters
@@ -25,25 +25,36 @@ namespace WordleHelp
         {
             return _differentPlace[index];
         }
+        public string[] DifferentPlaces
+        {
+            get { return _differentPlace; }
+        }
 
         public void handleGuess(string word, string score)
         {
             for(int i = 0; i < word.Length; i++)
             {
-                char letterScore = score[i];
+                 char letterScore = score[i];
 
                 switch (letterScore)
                 {
-                    case 'G':
+                    case rightPlace:
                         _correctLetters[i] = word[i];
                         break;
-                    case 'Y':
+                    case wrongPlace:
                         _differentPlace[i] += word[i];
                         break;
                     default:
-                        _wrongLetters.Add(word[i]);
                         break;
 
+                }   
+            }
+            for (int i = 0; i < word.Length; i++)
+            {
+                char letterScore = score[i];
+                if (letterScore != rightPlace && letterScore != wrongPlace)
+                {
+                    _wrongLetters.Add(word[i]);
                 }
             }
         }

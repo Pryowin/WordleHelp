@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
 namespace WordleHelp
 {
     public class RegExBuilder
     {
+        const char OR = '|';
+        const char ANYCHAR = '.';
+
         public Regex OmitWrongPlace(string[] wrongPlace)
         {
             StringBuilder reg = new StringBuilder();
 
             foreach(string letters in wrongPlace)
             {
-                if (letters.Length == 0)
+                if (letters == null) 
                 {
-                    reg.Append('.');
+                    reg.Append(ANYCHAR);
                 } 
                 else
                 {
@@ -33,11 +34,13 @@ namespace WordleHelp
                 foreach(char letter in letters)
                 {
                     reg.Append(letter);
-                    reg.Append('|');
+                    reg.Append(OR);
                 }
-                reg.Remove(reg.ToString().Length - 1, 1);
-                reg.Append(".?]");
+                
             }
+            reg.Remove(reg.ToString().Length - 1, 1);
+            reg.Append(".?]");
+
             return new Regex(reg.ToString()); ;
 
         }
@@ -49,7 +52,7 @@ namespace WordleHelp
             foreach(char letter in letters)
             {
                 reg.Append(letter);
-                reg.Append('|');
+                reg.Append(OR);
             }
             reg.Remove(reg.ToString().Length - 1, 1);
             reg.Append(']');
