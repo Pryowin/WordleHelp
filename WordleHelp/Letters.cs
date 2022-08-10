@@ -4,13 +4,15 @@ namespace WordleHelp
 {
     public class Letters
     {
-        const int wordLength = 5;
-        const char rightPlace = 'G';
-        const char wrongPlace = 'Y';
+        const int WordLength = 5;
+        const char RightPlace = 'G';
+        const char WrongPlace = 'Y';
+        const char AnyChar = '.';
 
-        private char[] _correctLetters = new char[wordLength] { '.', '.', '.', '.', '.' };
+        private char[] _correctLetters = new char[WordLength] { AnyChar, AnyChar, AnyChar, AnyChar, AnyChar };
         private HashSet<char> _wrongLetters = new HashSet<char>();
-        private string[] _differentPlace = new string[wordLength];
+        private HashSet<char> _usedLetters = new HashSet<char>();
+        private string[] _differentPlace = new string[WordLength];
    
 
         public HashSet<char> WrongLetters
@@ -38,11 +40,13 @@ namespace WordleHelp
 
                 switch (letterScore)
                 {
-                    case rightPlace:
+                    case RightPlace:
                         _correctLetters[i] = word[i];
+                        _usedLetters.Add(word[i]);
                         break;
-                    case wrongPlace:
+                    case WrongPlace:
                         _differentPlace[i] += word[i];
+                        _usedLetters.Add(word[i]);
                         break;
                     default:
                         break;
@@ -52,7 +56,7 @@ namespace WordleHelp
             for (int i = 0; i < word.Length; i++)
             {
                 char letterScore = score[i];
-                if (letterScore != rightPlace && letterScore != wrongPlace)
+                if (letterScore != RightPlace && letterScore != WrongPlace && !_usedLetters.Contains(word[i]))
                 {
                     _wrongLetters.Add(word[i]);
                 }

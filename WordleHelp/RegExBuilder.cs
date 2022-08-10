@@ -5,8 +5,8 @@ namespace WordleHelp
 {
     public class RegExBuilder
     {
-        const char OR = '|';
-        const char ANYCHAR = '.';
+        const char Or = '|';
+        const char AnyChar = '.';
 
         public Regex OmitWrongPlace(string[] wrongPlace)
         {
@@ -14,9 +14,9 @@ namespace WordleHelp
 
             foreach(string letters in wrongPlace)
             {
-                if (letters == null) 
+                if (letters == null || letters == "")
                 {
-                    reg.Append(ANYCHAR);
+                    reg.Append(AnyChar);
                 } 
                 else
                 {
@@ -31,10 +31,14 @@ namespace WordleHelp
             StringBuilder reg = new StringBuilder("[.?");
             foreach(string letters in wrongPlace)
             {
+                if(letters is null)
+                {
+                    continue;
+                }
                 foreach(char letter in letters)
                 {
                     reg.Append(letter);
-                    reg.Append(OR);
+                    reg.Append(Or);
                 }
                 
             }
@@ -52,7 +56,7 @@ namespace WordleHelp
             foreach(char letter in letters)
             {
                 reg.Append(letter);
-                reg.Append(OR);
+                reg.Append(Or);
             }
             reg.Remove(reg.ToString().Length - 1, 1);
             reg.Append(']');

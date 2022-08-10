@@ -8,15 +8,15 @@ namespace WordleHelp
         {
             string[] words = new Words().WordList;
             Letters letters = new Letters();
-            const string exitString = "!x";
+            const string ExitString = "!x";
             
             bool exit = false;
 
             do
             {
-                Console.WriteLine("Enter Word or {0} to Exit", exitString);
+                Console.WriteLine("Enter Word or {0} to Exit", ExitString);
                 string guess = Console.ReadLine().ToLower().Trim();
-                if (guess == exitString)
+                if (guess == ExitString)
                 {
                     exit = true;
                     continue;
